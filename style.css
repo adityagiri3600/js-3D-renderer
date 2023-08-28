@@ -1,0 +1,11 @@
+body{
+    padding: 0;
+    margin: 0;
+    background-color: rgb(143, 237, 237);
+}
+.threeD{
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    background-color: magenta;
+}
