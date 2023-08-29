@@ -1,3 +1,11 @@
+@font-face{
+    font-family: 'Raleway-Medium';
+    src: url('./fonts/Raleway-Medium.ttf');
+}
+
+
+
+
 body{
     padding: 0;
     margin: 0;
@@ -8,4 +16,22 @@ body{
     height: 100vh;
     position: absolute;
     background-color: magenta;
+}
+
+.addCubeButton{
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 50px;
+    height: 50px;
+    font-size: 40px;
+    line-height: 40px;
+    background-color: rgb(207, 207, 207);
+    color: rgb(95, 95, 95);
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px 0px rgba(119, 119, 119, 0.75);
+    margin: 10px;
+    font-family: monospace;
+    cursor: pointer;
+    outline: none;
 }

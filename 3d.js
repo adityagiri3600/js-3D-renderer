@@ -4,6 +4,9 @@ cameraz = -3
 zoom = 100
 theta = 0
 phi = 0
+colorList = [[150, 194, 145], [255, 219, 170], [255, 183, 183], [39, 55, 77], [82, 109, 130],
+             [25, 183, 183], [39, 155, 77], [82, 109, 10], [150, 14, 145], [255, 219, 70],
+             [105, 183, 83], [39, 155, 177], [182, 109, 10], [150, 14, 245], [255, 19, 170]]
 
 
 
@@ -92,18 +95,30 @@ let solids = [cube1, cube2, plane1]
 
 //creates divs for each face of each solid
 function createDivs() {
-
     for (let i = 0; i < solids.length; i++) {
 
         let solid = solids[i]
-
+        randColor = colorList[Math.floor(Math.random() * colorList.length)];
+        colorList.splice(colorList.indexOf(randColor), 1);
+        
         for (let j = 0; j < solid.faces.length; j++) {
             var div = document.createElement('div');
             div.className = 'threeD';
             div.id = `div ${j} ${i}`;
-            div.style.backgroundColor = `rgb(${255},${i * 100 + j * 20},${j * 20})`
+            div.style.backgroundColor = `rgb(${randColor[0] - j * 20},${randColor[1] - j * 20},${randColor[2] - j * 20})`
             document.body.appendChild(div)
         }
+    }
+}
+function createDivsForSingleSolid(solid) {
+    randColor = colorList[Math.floor(Math.random() * colorList.length)];
+    colorList.splice(colorList.indexOf(randColor), 1);
+    for (let j = 0; j < solid.faces.length; j++) {
+        var div = document.createElement('div');
+        div.className = 'threeD';
+        div.id = `div ${j} ${solids.length-1}`;
+        div.style.backgroundColor = `rgb(${randColor[0] - j * 20},${randColor[1] - j * 20},${randColor[2] - j * 20})`
+        document.body.appendChild(div)
     }
 }
 
@@ -173,3 +188,36 @@ setInterval(function () {
     render();
 
 }, 10);
+
+
+
+
+
+function addCube() {
+    cube = new Solid([
+        [[0, 0, 0], [0, 0, 1], [1, 0, 1], [1, 0, 0]],
+        [[0, 0, 0], [0, 0, 1], [0, 1, 1], [0, 1, 0]],
+        [[0, 0, 1], [1, 0, 1], [1, 1, 1], [0, 1, 1]],
+        [[0, 1, 0], [0, 1, 1], [1, 1, 1], [1, 1, 0]],
+        [[1, 0, 0], [1, 0, 1], [1, 1, 1], [1, 1, 0]]
+    ])
+    solids.push(cube)
+    createDivsForSingleSolid(cube)
+    document.addEventListener('keydown', function (event) {
+        if (event.key == "w") {
+            cube.translate(0, 0.1, 0)
+        }
+        if (event.key == "s") {
+            cube.translate(0, -0.1, 0)
+        }
+        if (event.key == "a") {
+            cube.translate(-0.1, 0, 0)
+        }
+        if (event.key == "d") {
+            cube.translate(0.1, 0, 0)
+        }
+        if (event.key == "r") {
+            cube.rotate(0.1)
+        }
+    })
+}
