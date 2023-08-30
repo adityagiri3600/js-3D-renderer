@@ -87,7 +87,7 @@ const plane1 = new Solid([
 
 
 
-let solids = [cube1, cube2, plane1]
+let solids = [plane1, cube1, cube2]
 
 
 
@@ -100,26 +100,38 @@ function createDivs() {
         let solid = solids[i]
         randColor = colorList[Math.floor(Math.random() * colorList.length)];
         colorList.splice(colorList.indexOf(randColor), 1);
-        
+
+        const cube = document.createElement(`div`);
+        cube.id = `cube-${i}`;
+
         for (let j = 0; j < solid.faces.length; j++) {
             var div = document.createElement('div');
             div.className = 'threeD';
-            div.id = `div ${j} ${i}`;
+            div.id = `cube-face-${i}-${j}`;
             div.style.backgroundColor = `rgb(${randColor[0] - j * 20},${randColor[1] - j * 20},${randColor[2] - j * 20})`
-            document.body.appendChild(div)
+            cube.appendChild(div);
         }
+
+        document.body.appendChild(cube);
     }
 }
+
 function createDivsForSingleSolid(solid) {
+
     randColor = colorList[Math.floor(Math.random() * colorList.length)];
     colorList.splice(colorList.indexOf(randColor), 1);
+    
+    const cube = document.createElement(`div`);
+    cube.id = `cube-${solids.length - 1}`;
+
     for (let j = 0; j < solid.faces.length; j++) {
         var div = document.createElement('div');
         div.className = 'threeD';
-        div.id = `div ${j} ${solids.length-1}`;
+        div.id = `cube-face-${solids.length - 1}-${j}`;
         div.style.backgroundColor = `rgb(${randColor[0] - j * 20},${randColor[1] - j * 20},${randColor[2] - j * 20})`
-        document.body.appendChild(div)
+        cube.appendChild(div);
     }
+    document.body.appendChild(cube);
 }
 
 
@@ -162,7 +174,7 @@ function render() {
 
         for (let j = 0; j < faces.length; j++) {
 
-            ele = document.getElementById(`div ${j} ${i}`);
+            ele = document.getElementById(`cube-face-${i}-${j}`);
             ele.style.clipPath = clippingPath[j];
 
             //sets the z-index of each face to the average z-index of its points
@@ -220,4 +232,11 @@ function addCube() {
             cube.rotate(0.1)
         }
     })
+}
+
+function removeButton() {
+    if (solids.length <= 2)
+        return;
+    document.body.removeChild(document.getElementById(`cube-${solids.length - 1}`))
+    solids.pop();
 }

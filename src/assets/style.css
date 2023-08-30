@@ -4,24 +4,30 @@
 }
 
 
-
-
-body{
+body {
     padding: 0;
     margin: 0;
     background-color: rgb(143, 237, 237);
 }
-.threeD{
+
+.threeD {
     width: 100vw;
     height: 100vh;
     position: absolute;
     background-color: magenta;
 }
 
-.addCubeButton{
+#controlButtons {
+    display: flex;
+    flex-direction: column;
     position: absolute;
     top: 0;
     right: 0;
+    margin-top: 5px;
+ 
+}
+
+#controlButtons button {
     width: 50px;
     height: 50px;
     font-size: 40px;
@@ -30,7 +36,7 @@ body{
     color: rgb(95, 95, 95);
     border-radius: 10px;
     box-shadow: 0px 0px 10px 0px rgba(119, 119, 119, 0.75);
-    margin: 10px;
+    margin: 5px 10px;
     font-family: monospace;
     cursor: pointer;
     outline: none;
