@@ -11,7 +11,7 @@ class Plane {
 
         // the surface of the plane is itself a solid
         const plane = new Solid(0, [
-            [[-5, -5, 0], [-5, 5, 0], [5, 5, 0], [5, -5, 0]]
+            [[-5, -5, 0], [5, -5, 0], [5, 5, 0], [-5, 5, 0]]
         ]);
 
         this.solids = initialSolids;
@@ -74,7 +74,8 @@ class Plane {
         for (let i = 0; i < this.solids.length; i++) {
     
             let solid = this.solids[i]
-    
+            
+            solid.calculateColor();
             var clippingPath = solid.clippingPath()
             var faces = solid.faces;
     
@@ -90,6 +91,7 @@ class Plane {
                 } else {
                     ele.style.zIndex = -999;
                 }
+
             }
         }
         

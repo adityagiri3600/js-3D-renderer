@@ -3,6 +3,8 @@ var camerax = 0
 var cameray = -6
 var cameraz = -3
 var zoom = 100
+var lightPos = [-.5, 0, 1]
+var lightPower = .003
 var theta = 0
 var phi = 0
 
@@ -13,12 +15,13 @@ let colorList = [[150, 194, 145], [255, 219, 170], [255, 183, 183], [39, 55, 77]
 
 class Solid {
 
-    // initialises a solid with an ID and a list of faces (each face is a list of 4 points
+    // initialises a solid with an ID and a list of faces (each face is a list of 4 points)
     constructor(id, faces) {
         this.faces = faces;
         this.id = id;
 
         var randColor = colorList[Math.floor(Math.random() * colorList.length)];
+        this.color = randColor;
         colorList.splice(colorList.indexOf(randColor), 1);
     
         const cube = document.createElement(`div`);
@@ -29,7 +32,9 @@ class Solid {
             var face = document.createElement('div');
             face.classList.add('face');
             face.id = `cube-face-${id}-${j}`;
-            face.style.backgroundColor = `rgb(${randColor[0] - j * 20},${randColor[1] - j * 20},${randColor[2] - j * 20})`
+            face.style.backgroundColor = `rgb(${randColor[0]},
+                                              ${randColor[1]},
+                                              ${randColor[2]})`
             cube.appendChild(face);
         }
 
@@ -60,10 +65,10 @@ class Solid {
                 this.faces[i][j][0] = rot(this.faces[i][j][0], this.faces[i][j][1], theta)[0]
                 this.faces[i][j][1] = rot(this.faces[i][j][0], this.faces[i][j][1], theta)[1]
             }
-
+            
         }
     }
-
+    
     // translates the solid by (x,y,z)
     translate(x, y, z) {
         for (let i = 0; i < this.faces.length; i++) {
@@ -87,14 +92,39 @@ class Solid {
         }
     }
 
+    getFaceElement(index){
+        return document.getElementById(`cube-face-${this.id}-${index}`)
+    }
+    
+    // calculates the color of each face based on the light source
+    calculateColor(){
+        for(let i = 0; i < this.faces.length; i++){
+            let face = this.faces[i]
+            var a = face[0]
+            var b = face[1]
+            var c = face[2]
+            var d = face[3]
+            var u = [b[0]-a[0], b[1]-a[1], b[2]-a[2]]
+            var v = [c[0]-a[0], c[1]-a[1], c[2]-a[2]]
+            var normal = [u[1]*v[2]-u[2]*v[1], u[2]*v[0]-u[0]*v[2], u[0]*v[1]-u[1]*v[0]]
+            var dot = normal[0]*lightPos[0]+normal[1]*lightPos[1]+normal[2]*lightPos[2]
+            var mag = Math.sqrt(normal[0]*normal[0]+normal[1]*normal[1]+normal[2]*normal[2])
+            var mag2 = Math.sqrt(lightPos[0]*lightPos[0]+lightPos[1]*lightPos[1]+lightPos[2]*lightPos[2])
+            dot = (dot/(mag*mag2) + 1)/2.
+            var color = [255, 255, 255]
+            color[0] = color[0]*dot*lightPower
+            color[1] = color[1]*dot*lightPower
+            color[2] = color[2]*dot*lightPower
+            this.getFaceElement(i).style.backgroundColor = `rgb(${color[0]*this.color[0]},
+                                                                                              ${color[1]*this.color[1]},
+                                                                                              ${color[2]*this.color[2]})`
+        }
+    }
     changeColor() {
 
         var randColor = colorList[Math.floor(Math.random() * colorList.length)];
         colorList.splice(colorList.indexOf(randColor), 1);
-        for (let j = 0; j < this.faces.length; j++) {
-            const ele = document.getElementById(`cube-face-${this.id}-${j}`);
-            ele.style.backgroundColor = `rgb(${randColor[0] - j * 20},${randColor[1] - j * 20},${randColor[2] - j * 20})`
-        }
+        this.color = randColor;
 
     }
 
@@ -121,7 +151,6 @@ function project(x, y, z, theta) {
     z = rot(y, z, phi)[1]
     return [zoom * (x * (window.screen.height / window.screen.width) / y + 0.5), zoom * (z / y)]
 }
-
 
 /**
  * CURRENTLY NOT WORKING AND NOT FIXED:
