@@ -5,7 +5,8 @@ var cameraz = -3
 var zoom = 100
 var theta = 0
 var phi = 0
-const colorList = [[150, 194, 145], [255, 219, 170], [255, 183, 183], [39, 55, 77], [82, 109, 130],
+
+let colorList = [[150, 194, 145], [255, 219, 170], [255, 183, 183], [39, 55, 77], [82, 109, 130],
              [25, 183, 183], [39, 155, 77], [82, 109, 10], [150, 14, 145], [255, 219, 70],
              [105, 183, 83], [39, 155, 177], [182, 109, 10], [150, 14, 245], [255, 19, 170]]
 
@@ -49,7 +50,7 @@ class Solid {
         }
 
         return path_list;
-        
+
     }
 
     // rotates the solid by theta radians
@@ -84,6 +85,23 @@ class Solid {
                 this.faces[i][j][2] *= z
             }
         }
+    }
+
+    changeColor() {
+
+        var randColor = colorList[Math.floor(Math.random() * colorList.length)];
+        colorList.splice(colorList.indexOf(randColor), 1);
+        for (let j = 0; j < this.faces.length; j++) {
+            const ele = document.getElementById(`cube-face-${this.id}-${j}`);
+            ele.style.backgroundColor = `rgb(${randColor[0] - j * 20},${randColor[1] - j * 20},${randColor[2] - j * 20})`
+        }
+
+    }
+
+    resetColorList() {
+        colorList = [[150, 194, 145], [255, 219, 170], [255, 183, 183], [39, 55, 77], [82, 109, 130],
+             [25, 183, 183], [39, 155, 77], [82, 109, 10], [150, 14, 145], [255, 219, 70],
+             [105, 183, 83], [39, 155, 177], [182, 109, 10], [150, 14, 245], [255, 19, 170]]
     }
 }
 

@@ -4,7 +4,8 @@ class Plane {
 
     solids = []; // list of the solids in the plane.
     time = 0; // amount of time that has been rendered since the plane was initialised. (For future use.)
-    
+    isRendering = false;
+
     // intialises a plane with a color and an optional initial list of solids
     constructor (color, initialSolids = []) {
 
@@ -16,18 +17,8 @@ class Plane {
         this.solids = initialSolids;
         this.solids.push(plane);
 
-        const that = this;
         
-        this.interval = setInterval(function () {
-
-            that.time += 0.01;
-            for (let i = 1; i < that.solids.length; i++) {
-                that.solids[i].rotate(i == 1 ? -0.01 : 0.01);
-            }
-
-            that.render();
-        
-        }, 10);
+        this.toggleRendering();
 
     }
 
@@ -63,6 +54,15 @@ class Plane {
         }  
     }
 
+    // changes the color of all solids 
+    changeAllColor() {
+        this.solids[0].resetColorList();
+        for (let i = 0; i < this.solids.length; i++) {
+            this.solids[i].changeColor();
+        }
+        
+    }
+
     // returns the number of solids in the plane
     count() {
         return this.solids.length;
@@ -95,4 +95,23 @@ class Plane {
         
     }
 
+    toggleRendering() {
+        if (this.isRendering) {
+            clearInterval(this.interval);
+            this.isRendering = false;
+        }else {
+            const that = this;
+            this.interval = setInterval(function () {
+    
+                that.time += 0.01;
+                for (let i = 1; i < that.solids.length; i++) {
+                    that.solids[i].rotate(i == 1 ? -0.01 : 0.01);
+                }
+    
+                that.render();
+            
+            }, 10);
+            this.isRendering = true;
+        }
+    }
 }
