@@ -26,11 +26,11 @@ class Solid {
         cube.id = `cube-${id}`;
 
         for (let j = 0; j < faces.length; j++) {
-            var div = document.createElement('div');
-            div.className = 'threeD';
-            div.id = `cube-face-${id}-${j}`;
-            div.style.backgroundColor = `rgb(${randColor[0] - j * 20},${randColor[1] - j * 20},${randColor[2] - j * 20})`
-            cube.appendChild(div);
+            var face = document.createElement('div');
+            face.classList.add('face');
+            face.id = `cube-face-${id}-${j}`;
+            face.style.backgroundColor = `rgb(${randColor[0] - j * 20},${randColor[1] - j * 20},${randColor[2] - j * 20})`
+            cube.appendChild(face);
         }
 
         document.body.appendChild(cube);

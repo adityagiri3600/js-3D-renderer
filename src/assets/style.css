@@ -3,6 +3,12 @@
     src: url('./fonts/Raleway-Medium.ttf');
 }
 
+:root{
+    /* theme colors */
+    /* THESE HAVE TO BE UPDATED SEPERATELY IN INDEX.HTML FOR SVG FILL COLOR */
+    --theme-color1: #5c9bcf;
+    --theme-color2: #f9e0e0;
+}
 
 body {
     padding: 0;
@@ -10,7 +16,7 @@ body {
     background-color: rgb(143, 237, 237);
 }
 
-.threeD {
+.face {
     width: 100vw;
     height: 100vh;
     position: absolute;
@@ -32,9 +38,10 @@ body {
     height: 50px;
     font-size: 40px;
     line-height: 40px;
-    background-color: rgb(207, 207, 207);
-    color: rgb(95, 95, 95);
+    background-color: var(--theme-color1);
+    color: var(--theme-color2);
     border-radius: 10px;
+    border-color: var(--theme-color1);
     box-shadow: 0px 0px 10px 0px rgba(119, 119, 119, 0.75);
     margin: 5px 10px;
     font-family: monospace;
