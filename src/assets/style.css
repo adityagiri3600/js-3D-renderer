@@ -6,21 +6,21 @@
 :root{
     /* theme colors */
     /* THESE HAVE TO BE UPDATED SEPERATELY IN INDEX.HTML FOR SVG FILL COLOR */
-    --theme-color1: #5c9bcf;
+    --theme-color1: #4a81ad;
     --theme-color2: #f9e0e0;
 }
 
 body {
     padding: 0;
     margin: 0;
-    background-color: rgb(143, 237, 237);
+    background-color: rgb(115, 152, 152);
 }
 
 .face {
     width: 100vw;
     height: 100vh;
     position: absolute;
-    background-color: magenta;
+    background-color: rgb(95, 29, 95);
 }
 
 #controlButtons {
